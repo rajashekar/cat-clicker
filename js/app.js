@@ -29,7 +29,7 @@ bindButtonstoCat = () => {
         });
     }
 }
-showImage = catName => $('.displaycatimage').html(`<img alt=${catName} id="${catName}" src="images/${catName}.jpg">`)
+showImage = catName => $('.displaycatimage').html(`<h1 id="cname">${catName}</h1><img alt=${catName} id="${catName}" src="images/${catName}.jpg">`)
 showImgCount = count => $('.displayclickcount').html(count)
 bindImgCount = catName => {
     $(`#${catName}`).click(function() {
@@ -48,6 +48,28 @@ init = () => {
     showImage(data.cats[0].name)
     showImgCount(0)
     bindImgCount(data.cats[0].name)
+    $('.adminform').hide()
+    $('#admin').click(function() {
+        var catname = $('#cname').text()
+        $('#catname').val(catname)
+        var catcount = $('.displayclickcount').text()
+        $('#clickcount').val(catcount)
+        $('.adminform').show()
+    })
+    $('#cancel').click(function() {
+        $('.adminform').hide()
+    })
+    $('#save').click(function() {
+        // store count
+        var cnt = $('#clickcount').val()
+        for(var i = 0;i < data.cats.length; i++) {
+            if(data.cats[i].name === $('#catname').val()) {
+                data.cats[i].count = cnt
+            }
+        }
+        $('.displayclickcount').text(cnt)
+        $('.adminform').hide()
+    })
 }
 // calling view
 listCats()
